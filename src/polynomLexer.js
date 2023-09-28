@@ -77,6 +77,11 @@ class PolynomLexer {
         position: this.currentIndex++,
         value: "+"
       } 
+      case "-": return {
+        type: "minus operator", 
+        position: this.currentIndex++,
+        value: "-"
+      } 
       default: return null
     }
   }
