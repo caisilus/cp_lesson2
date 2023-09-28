@@ -25,4 +25,35 @@ describe("polynom lexer class", () => {
 
     expect(lexem).toEqual({type: "plus operator", value: "+", position: 3})
   })
+
+  test("supports minus operator", () => {
+    const input = "y + x - 24"
+    const lexer = new PolynomLexer(input)
+    lexer.nextLexem()
+    lexer.nextLexem()
+    lexer.nextLexem()
+    const lexem = lexer.nextLexem()
+
+    expect(lexem).toEqual({type: "minus operator", value: "-", position: 6})
+  })
+
+  test("supports power operator", () => {
+    const input = "3 + x^5"
+    const lexer = new PolynomLexer(input)
+    lexer.nextLexem()
+    lexer.nextLexem()
+    lexer.nextLexem()
+    const lexem = lexer.nextLexem()
+
+    expect(lexem).toEqual({type: "power operator", value: "^", position: 5})
+  })
+
+  test("supports star operator", () => {
+    const input = "3*z + 4"
+    const lexer = new PolynomLexer(input)
+    lexer.nextLexem()
+    const lexem = lexer.nextLexem()
+
+    expect(lexem).toEqual({type: "star operator", value: "*", position: 1})
+  })
 })

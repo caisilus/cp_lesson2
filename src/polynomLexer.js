@@ -82,6 +82,16 @@ class PolynomLexer {
         position: this.currentIndex++,
         value: "-"
       } 
+      case "*": return {
+        type: "star operator", 
+        position: this.currentIndex++,
+        value: "*"
+      } 
+      case "^": return {
+        type: "power operator", 
+        position: this.currentIndex++,
+        value: "^"
+      } 
       default: return null
     }
   }
