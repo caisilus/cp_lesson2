@@ -34,7 +34,11 @@ class PolynomLexer {
       return operation
     }
 
-    return null
+    return {
+      type: "error",
+      value: "unexpected symbol " + this.currentChar(),
+      position: this.currentIndex
+    }
   }
 
   endOfFileToken() {

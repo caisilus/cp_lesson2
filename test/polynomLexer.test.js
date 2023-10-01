@@ -78,4 +78,13 @@ describe("polynom lexer class", () => {
 
     expect(lexem).toEqual({type: "end of file", value: null, position: 7})
   })
+
+  test("returns error token for unsupported input", () => {
+    const input = "3 ' x  "
+    const lexer = new PolynomLexer(input)
+    lexer.nextLexem()
+    const lexem = lexer.nextLexem()
+
+    expect(lexem).toEqual({type: "error", value: "unexpected symbol '", position: 2})
+  })
 })
