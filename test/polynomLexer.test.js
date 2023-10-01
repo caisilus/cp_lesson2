@@ -56,4 +56,26 @@ describe("polynom lexer class", () => {
 
     expect(lexem).toEqual({type: "star operator", value: "*", position: 1})
   })
+
+  test("supports end of file", () => {
+    const input = "3 + x"
+    const lexer = new PolynomLexer(input)
+    lexer.nextLexem()
+    lexer.nextLexem()
+    lexer.nextLexem()
+    const lexem = lexer.nextLexem()
+
+    expect(lexem).toEqual({type: "end of file", value: null, position: 5})
+  })
+  
+  test("supports trimming at end of file", () => {
+    const input = "3 + x  "
+    const lexer = new PolynomLexer(input)
+    lexer.nextLexem()
+    lexer.nextLexem()
+    lexer.nextLexem()
+    const lexem = lexer.nextLexem()
+
+    expect(lexem).toEqual({type: "end of file", value: null, position: 7})
+  })
 })

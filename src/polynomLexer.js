@@ -13,7 +13,11 @@ class PolynomLexer {
   }
   
   nextLexem() {
-    this.skipDummy()
+    this.skipDummy()    
+
+    if (this.inputEnded()) {
+      return this.endOfFileToken()
+    }
 
     const numberToken = this.getNumber()
     if (numberToken !== null) {
@@ -33,8 +37,15 @@ class PolynomLexer {
     return null
   }
 
+  endOfFileToken() {
+    return {
+      type: "end of file", 
+      value: null,
+      position: this.currentIndex
+    }
+  }
   skipDummy() {
-    while (this.currentChar().trim().length === 0) {
+    while (!this.inputEnded() && this.currentChar().trim().length === 0) {
       this.nextChar()
     }
   }
