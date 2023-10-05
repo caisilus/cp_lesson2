@@ -87,4 +87,15 @@ describe("polynom lexer class", () => {
 
     expect(lexem).toEqual({type: "error", value: "unexpected symbol '", position: 2})
   })
+
+  test("supports peekLexem", () => {
+    const input = "3 + x"
+    const lexer = new PolynomLexer(input)
+    lexer.nextLexem()
+    const lexem = lexer.peekLexem()
+
+    expect(lexem).toEqual({type: "plus operator", value: "+", position: 2})
+    
+    expect(lexer.peekLexem()).toEqual({type: "plus operator", value: "+", position: 2})
+  })
 })

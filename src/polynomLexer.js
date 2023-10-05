@@ -41,6 +41,13 @@ class PolynomLexer {
     }
   }
 
+  peekLexem() {
+    const startingIndex = this.currentIndex;
+    const lexem = this.nextLexem();
+    this.currentIndex = startingIndex;
+    return lexem
+  }
+
   endOfFileToken() {
     return {
       type: "end of file", 
