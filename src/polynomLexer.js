@@ -92,6 +92,7 @@ class PolynomLexer {
       value: id 
     }
   }
+
   getOperation() {
     switch (this.currentChar()) {
       case "+": return {

@@ -42,7 +42,7 @@ class PolynomParser {
       return null
     }
 
-    const lexem = this.lexer.nextLexem()
+    const lexem = this.lexer.peekLexem()
     if (lexem.type == "end of file") {
       return left
     }
@@ -51,9 +51,9 @@ class PolynomParser {
       return null
     }
 
-    const operationFunc = applyOpToCoefs((f1, f2) => f1 + f2, (c1, c2) => `${c1} + ${c2}`)
-    if (lexem.value === "-") {
-      operationFunc = applyOpToCoefs((f1, f2) => f1 - f2, (c1, c2) => `${c1} - ${c2}`)
+    let operationFunc = applyOpToCoefs((f1, f2) => f1 + f2, (c1, c2) => `${c1} + ${c2}`)
+    if (lexem.value === "+") {
+      this.lexer.nextLexem()
     }
 
     const right = this.parseBy(variableName)
@@ -69,6 +69,20 @@ class PolynomParser {
   }
 
   parseTerm(variableName) {
+    const firstLexem = this.lexer.peekLexem()
+
+    if (firstLexem.type == "minus operator") {
+      this.lexer.nextLexem()
+      const operationFunc = applyOpToCoefs((f1, f2) => f1 * f2, (c1, c2) => `${c1} * ${c2}`) 
+      const term = this.parseTerm(variableName)
+
+      if (term === null) {
+        return null
+      }
+
+      return arrayBinaryOp([-1], term, operationFunc, (a, n) => fillArrToLen(a, n, "end"))
+    }
+
     const left = this.parseFactor(variableName)
     if (left === null) {
       return null
