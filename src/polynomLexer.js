@@ -138,18 +138,10 @@ class PolynomLexer {
   }
   
   currentChar() {
-    if (this.inputEnded()) {
-      return null
-    }
-
     return this.input[this.currentIndex]
   }
   
   nextChar() {
-    if (this.inputEnded()) {
-      return null
-    }
-
     return this.input[++this.currentIndex]
   }
 }
