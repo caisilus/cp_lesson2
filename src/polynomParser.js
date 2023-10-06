@@ -65,7 +65,7 @@ class PolynomParser {
   }
 
   correctTermOperator(lexem) {
-    return lexem !== null && (lexem.type !== "plus operator" || lexem.type !== "minus operator") 
+    return lexem !== null && (lexem.type === "plus operator" || lexem.type === "minus operator") 
   }
 
   parseTerm(variableName) {
@@ -117,8 +117,6 @@ class PolynomParser {
     if (firstLexem.type === "number") {
       return this.parseNumber(firstLexem)
     }
-
-    return null
   }
 
   parseIdentifier(firstLexem, variableName) {
@@ -145,10 +143,6 @@ class PolynomParser {
   }
 
   parseNumber(lexem) {
-    if (lexem.type !== "number") {
-      return null
-    }
-
     return [lexem.value]
   }
 
