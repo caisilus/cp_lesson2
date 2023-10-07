@@ -55,18 +55,24 @@ describe("polynom toString", () => {
   })
 })
 
-describe("polynom class plus operator", () => {
+describe("polynom sum", () => {
   test("supports number coefs", () => {
-    const p1 = new Polynom(["1", "2", "1"])
-    const p2 = new Polynom(["3", "0"])
+    const p1 = new Polynom("x", ["1", "2", "1"])
+    const p2 = new Polynom("x", ["3", "0"])
 
-    expect((p1 + p2).coefs).toEqual(["1", "5", "1"])
+    const sum = p1.add(p2) 
+    const actualSum = new Polynom("x", ["1", "5", "1"])
+
+    expect(sum).toEqual(actualSum)
   })
 
   test("supports variable coefs", () => {
-    const p1 = new Polynom(["y", "c*d"])
-    const p2 = new Polynom(["y"])
+    const p1 = new Polynom("x", ["y", "c*d"])
+    const p2 = new Polynom("x", ["y"])
 
-    expect((p1 + p2).coefs).toEqual(["y", "c*d + y"])
+    const sum = p1.add(p2) 
+    const actualSum = new Polynom("x", ["y", "c*d + y"])
+
+    expect(sum).toEqual(actualSum)
   })
 })
