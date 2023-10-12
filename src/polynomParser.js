@@ -74,13 +74,8 @@ class PolynomParser {
       polynom = right
     }
     else {
-      if (right.coefs.length === 1) {
-        coef = right.coefs[0]
-        polynom = left
-      }
-      else {
-        return null
-      }
+      coef = right.coefs[0]
+      polynom = left
     }
     return polynom.muliplyFirstByCoef(coef)
   }
@@ -95,9 +90,7 @@ class PolynomParser {
       return this.parseIdentifier(firstLexem, variableName)
     }
 
-    if (firstLexem.type === "number") {
-      return this.parseNumber(firstLexem, variableName)
-    }
+    return this.parseNumber(firstLexem, variableName)
   }
 
   parseIdentifier(firstLexem, variableName) {

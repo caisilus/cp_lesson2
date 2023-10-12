@@ -40,6 +40,16 @@ class Polynom {
     return new Polynom(this.variable_name, newCoefs)
   }
 
+  scalarMultiply(other) {
+    if (this.variable_name != other.variable_name || this.power() != other.power()) {
+      return null
+    }
+
+    const multiplyOp = this.operationWithCoefs((x, y) => x * y, this.multiplyStringCoefs)
+    const newCoefs = this.arrayBinaryOp(this.coefs, other.coefs, multiplyOp, "end", "1")
+    return new Polynom(this.variable_name, newCoefs)
+  }
+
   multiplyStringCoefs(c1, c2) {
     if (c1 === "0" || c2 === "0") {
       return "0"
