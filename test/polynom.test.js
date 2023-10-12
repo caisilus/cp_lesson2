@@ -111,7 +111,7 @@ describe("polynom first coef multiplication with coef", () => {
     const coef = "3 * c"
 
     const result = p.muliplyFirstByCoef(coef)
-    const actualResult = new Polynom("x", ["2 * y * 3 * c", "0", "1", "2"])
+    const actualResult = new Polynom("x", ["3 * c * 2 * y", "0", "1", "2"])
     expect(result).toEqual(actualResult)
   })
 })

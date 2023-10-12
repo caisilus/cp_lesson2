@@ -1,35 +1,4 @@
-function arrayBinaryOp(a, b, op, fillFunc = fillArrToLenAtBegining) {
-  let aa = [...a]
-  let bb = [...b]
-
-  if (aa.length > bb.length) {
-    bb = fillFunc(bb, aa.length)
-  }
-  if (aa.length < bb.length) {
-    aa = fillFunc(aa, bb.length)
-  }
-
-  return aa.map((_, i) => op(aa[i], bb[i])) 
-}
-
-function applyOpToCoefs(floatOp, strOp) {
-  return (c1, c2) => {
-    const f1 = parseFloat(c1)
-    const f2 = parseFloat(c2)
-
-    if (!isNaN(f1) && !isNaN(f2)) {
-      return floatOp(f1, f2).toString()
-    }
-
-    return strOp(c1, c2)
-  }
-}
-
-function fillArrToLen(arr, len, fillIn="start") {
-  const missingCount = len - arr.length
-  const zeros = Array(missingCount).fill(0)
-  return fillIn === "start" ? zeros.concat(arr) : arr.concat(zeros) 
-}
+import { Polynom } from "./polynom"
 
 class PolynomParser {
   constructor(polynomLexer) {
@@ -51,7 +20,6 @@ class PolynomParser {
       return null
     }
 
-    let operationFunc = applyOpToCoefs((f1, f2) => f1 + f2, (c1, c2) => `${c1} + ${c2}`)
     if (lexem.value === "+") {
       this.lexer.nextLexem()
     }
@@ -61,7 +29,7 @@ class PolynomParser {
       return null
     }
 
-    return arrayBinaryOp(left, right, operationFunc, fillArrToLen)
+    return left.add(right)
   }
 
   correctTermOperator(lexem) {
@@ -73,14 +41,13 @@ class PolynomParser {
 
     if (firstLexem.type == "minus operator") {
       this.lexer.nextLexem()
-      const operationFunc = applyOpToCoefs((f1, f2) => f1 * f2, (c1, c2) => `${c1} * ${c2}`) 
       const term = this.parseTerm(variableName)
 
       if (term === null) {
         return null
       }
 
-      return arrayBinaryOp([-1], term, operationFunc, (a, n) => fillArrToLen(a, n, "end"))
+      return term.muliplyFirstByCoef("-1")
     }
 
     const left = this.parseFactor(variableName)
@@ -95,13 +62,27 @@ class PolynomParser {
 
     this.lexer.nextLexem()
 
-    const operationFunc = applyOpToCoefs((f1, f2) => f1 * f2, (c1, c2) => `${c1} * ${c2}`) 
     const right = this.parseTerm(variableName)
     if (right === null) {
       return null
     }
 
-    return arrayBinaryOp(left, right, operationFunc, (a, n) => fillArrToLen(a, n, "end"))
+    let coef = null
+    let polynom = null
+    if (left.coefs.length === 1) {
+      coef = left.coefs[0]
+      polynom = right
+    }
+    else {
+      if (right.coefs.length === 1) {
+        coef = right.coefs[0]
+        polynom = left
+      }
+      else {
+        return null
+      }
+    }
+    return polynom.muliplyFirstByCoef(coef)
   }
 
   parseFactor(variableName) {
@@ -115,18 +96,17 @@ class PolynomParser {
     }
 
     if (firstLexem.type === "number") {
-      return this.parseNumber(firstLexem)
+      return this.parseNumber(firstLexem, variableName)
     }
   }
 
   parseIdentifier(firstLexem, variableName) {
-    if (firstLexem.value !== variableName) {
-      return [firstLexem.value]
-    }
-
     const nextLexem = this.lexer.peekLexem()
     if (nextLexem.type !== "power operator") {
-      return firstLexem.value == variableName ? [1,0] : [firstLexem.value] 
+      if (firstLexem.value === variableName) {
+        return new Polynom(variableName, ["1", "0"]) 
+      }
+      return new Polynom(variableName, [firstLexem.value])
     }
 
     this.lexer.nextLexem()
@@ -134,16 +114,21 @@ class PolynomParser {
     if (powerIndexLexem === null || powerIndexLexem.type !== "number") {
       return null
     }    
+
+    if (firstLexem.value !== variableName) {
+      return new Polynom(variableName, [`${firstLexem.value}^${powerIndexLexem.value}`])
+    }
+
     const powerIndex = parseFloat(powerIndexLexem.value) 
     
-    const resultArray = Array(powerIndex + 1).fill(0)
-    resultArray[0] = firstLexem.value
+    const resultArray = Array(powerIndex + 1).fill("0")
+    resultArray[0] = "1"
 
-    return resultArray
+    return new Polynom(variableName, resultArray)
   }
 
-  parseNumber(lexem) {
-    return [lexem.value]
+  parseNumber(lexem, variableName) {
+    return new Polynom(variableName, [lexem.value])
   }
 
   isFactor(token) {

@@ -36,7 +36,7 @@ class Polynom {
 
   muliplyFirstByCoef(coef) {
     const multiplyOp = this.operationWithCoefs((x, y) => x * y, this.multiplyStringCoefs)
-    const newCoefs = this.arrayBinaryOp(this.coefs, [coef], multiplyOp, "end", "1")
+    const newCoefs = this.arrayBinaryOp([coef], this.coefs, multiplyOp, "end", "1")
     return new Polynom(this.variable_name, newCoefs)
   }
 
@@ -51,6 +51,14 @@ class Polynom {
 
     if (c2 === "1") {
       return c1
+    }
+
+    if (c1 === "-1" && c2[0] !== "-") {
+      return `-${c2}`
+    }
+
+    if (c2 === "-1" && c1[0] !== "-") {
+      return `-${c1}`
     }
 
     return `${c1} * ${c2}`
