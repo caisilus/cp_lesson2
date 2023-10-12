@@ -1,3 +1,12 @@
+function normalParseFloat(str) {
+  const floatRegex = /^[-+]?[0-9]*\.?[0-9]+$/
+  if (floatRegex.test(str)) {
+    return parseFloat(str)
+  }
+
+  return NaN
+}
+
 class Polynom {
   constructor(variable_name, coefs) {
     this.variable_name = variable_name
@@ -14,11 +23,11 @@ class Polynom {
   }
 
   addStringCoefs(c1, c2) {
-    if (c1 === 0) {
+    if (c1 === "0") {
       return c2
     }
 
-    if (c2 === 0) {
+    if (c2 === "0") {
       return c1
     }
 
@@ -42,11 +51,11 @@ class Polynom {
 
   operationWithCoefs(floatOp, strOp) {
     return (c1, c2) => {
-      const f1 = parseFloat(c1)
-      const f2 = parseFloat(c2)
+      const f1 = normalParseFloat(c1)
+      const f2 = normalParseFloat(c2)
 
       if (!isNaN(f1) && !isNaN(f2)) {
-        return floatOp(f1, f2).toString() // FIXME: Doesn't work with strings like "2 * y", it uses only "2"
+        return floatOp(f1, f2).toString()
       }
 
       return strOp(c1, c2)
@@ -55,7 +64,7 @@ class Polynom {
 
   fillArrToLen(arr, len, fillAt="begining") {
     const missingCount = len - arr.length
-    const zeros = Array(missingCount).fill(0)
+    const zeros = Array(missingCount).fill("0")
     return fillAt === "begining" ? zeros.concat(arr) : arr.concat(zeros) 
   }
 

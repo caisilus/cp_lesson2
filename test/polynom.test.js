@@ -75,4 +75,14 @@ describe("polynom sum", () => {
 
     expect(sum).toEqual(actualSum)
   })
+
+  test("supports coefs with both numbers and variables", () => {
+    const p1 = new Polynom("x", ["2*y", "5*c*d"])
+    const p2 = new Polynom("x", ["y", "0"])
+
+    const sum = p1.add(p2) 
+    const actualSum = new Polynom("x", ["2*y + y", "5*c*d"])
+
+    expect(sum).toEqual(actualSum)
+  })
 })
