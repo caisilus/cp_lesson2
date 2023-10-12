@@ -18,9 +18,9 @@ class MiniMaple{
   }
 
   getPowers(power) {
-    const powerCoefs = Array(power).fill(0)
+    const powerCoefs = Array(power).fill("0")
     for (let p = 0; p < power; p++) {
-      powerCoefs[p] = power - p
+      powerCoefs[p] = (power - p).toString()
     }
 
     return powerCoefs

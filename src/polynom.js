@@ -10,7 +10,12 @@ function normalParseFloat(str) {
 class Polynom {
   constructor(variable_name, coefs) {
     this.variable_name = variable_name
-    this.coefs = coefs
+    let i = 0
+    while (coefs[i] === "0") {
+      i++
+    }
+
+    this.coefs = (i === 0) ? coefs : coefs.slice(i)
   }
 
   add(p) {
@@ -63,18 +68,10 @@ class Polynom {
       return c1
     }
 
-    if (c1 === "-1" && c2[0] !== "-") {
-      return `-${c2}`
-    }
-
-    if (c2 === "-1" && c1[0] !== "-") {
-      return `-${c1}`
-    }
-
     return `${c1} * ${c2}`
   }
 
-  arrayBinaryOp(a, b, op, fillAt="begining", fillWith="0") {
+  arrayBinaryOp(a, b, op, fillAt, fillWith) {
     let aa = [...a]
     let bb = [...b]
 
@@ -102,7 +99,7 @@ class Polynom {
     }
   }
 
-  fillArrToLen(arr, len, fillAt="begining", fillWith) {
+  fillArrToLen(arr, len, fillAt, fillWith) {
     const missingCount = len - arr.length
     const zeros = Array(missingCount).fill(fillWith)
     return fillAt === "begining" ? zeros.concat(arr) : arr.concat(zeros) 
@@ -113,10 +110,6 @@ class Polynom {
   }
 
   toString() {
-    if (!this.coefs) {
-      return ""
-    }
-
     return this.coefs.map(((coef, i) => {
       const p = this.coefs.length - i - 1 
       const termStr = this.termString(coef, p)
@@ -136,7 +129,7 @@ class Polynom {
       return coef
     }
 
-    let coefStr = coef + "*"
+    let coefStr = coef + " * "
     if (coef === "1") {
       coefStr = ""
     }

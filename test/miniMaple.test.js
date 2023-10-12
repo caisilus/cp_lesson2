@@ -14,7 +14,7 @@ describe("diff module", () => {
       const miniMaple = new MiniMaple()
 
       const diff = miniMaple.diff(polynom, "x")
-      expect(diff).toBe("6*x^2 - 3")
+      expect(diff).toBe("6 * x^2 - 3")
    })
 
    test("diffs by x for non-linear function of x with multiple inclusions of the same power", () => {
@@ -22,6 +22,22 @@ describe("diff module", () => {
       const miniMaple = new MiniMaple()
 
       const diff = miniMaple.diff(polynom, "x")
-      expect(diff).toBe("3*x^2 - 3")
+      expect(diff).toBe("3 * x^2 - 3")
+   })
+
+   test("diffs by x for constant", () => {
+      const polynom = "3*c"
+      const miniMaple = new MiniMaple()
+
+      const diff = miniMaple.diff(polynom, "x")
+      expect(diff).toBe("0")
+   })
+
+   test("diffs by x for polynom with both x and y", () => {
+      const polynom = "3 * x^3 + 9 * x * y - 4 * x^2 + 2*y"
+      const miniMaple = new MiniMaple()
+
+      const diff = miniMaple.diff(polynom, "x")
+      expect(diff).toBe("9 * x^2 - 8 * x + 9 * y")
    })
 })

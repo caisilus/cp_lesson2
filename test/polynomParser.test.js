@@ -120,7 +120,7 @@ describe("polynom parser class", () => {
     let parser = new PolynomParser(lexer)
 
     let polynom = parser.parseBy("x")
-    let resultPolynom = new Polynom("x", ["1", "2 * y", "-y^3"])
+    let resultPolynom = new Polynom("x", ["1", "2 * y", "-1 * y^3"])
     expect(polynom).toEqual(resultPolynom)
 
     lexer = new PolynomLexer(polynomStr)
