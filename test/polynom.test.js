@@ -86,3 +86,32 @@ describe("polynom sum", () => {
     expect(sum).toEqual(actualSum)
   })
 })
+
+describe("polynom first coef multiplication with coef", () => {
+  test("supports numerical coefs", () => {
+    const p = new Polynom("x", ["11", "0", "1", "2"])
+    const coef = "2"
+
+    const result = p.muliplyFirstByCoef(coef)
+    const actualResult = new Polynom("x", ["22", "0", "1", "2"])
+    expect(result).toEqual(actualResult)
+  })
+
+  test("supports variable coefs", () => {
+    const p = new Polynom("x", ["y", "0", "1", "2"])
+    const coef = "y"
+
+    const result = p.muliplyFirstByCoef(coef)
+    const actualResult = new Polynom("x", ["y * y", "0", "1", "2"])
+    expect(result).toEqual(actualResult)
+  })
+
+  test("supports both numerical and variable coefs", () => {
+    const p = new Polynom("x", ["2 * y", "0", "1", "2"])
+    const coef = "3 * c"
+
+    const result = p.muliplyFirstByCoef(coef)
+    const actualResult = new Polynom("x", ["2 * y * 3 * c", "0", "1", "2"])
+    expect(result).toEqual(actualResult)
+  })
+})
