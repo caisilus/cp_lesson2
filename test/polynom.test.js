@@ -115,3 +115,20 @@ describe("polynom first coef multiplication with coef", () => {
     expect(result).toEqual(actualResult)
   })
 })
+
+describe("polynom power method", () => {
+  test("returns power index for linear polynom", () => {
+    const polynom = new Polynom("x", ["2", "-4"])
+    expect(polynom.power()).toBe(1)
+  })
+
+  test("returns power index for constant polynom", () => {
+    const polynom = new Polynom("x", ["4 * c"])
+    expect(polynom.power()).toBe(0)
+  })
+
+  test("returns power index for polynom with high power", () => {
+    const polynom = new Polynom("x", ["4 * y", "0", "-3", "7 * c"])
+    expect(polynom.power()).toBe(3)
+  })
+})

@@ -98,6 +98,9 @@ class Polynom {
     return fillAt === "begining" ? zeros.concat(arr) : arr.concat(zeros) 
   }
 
+  power() {
+    return this.coefs.length - 1
+  }
 
   toString() {
     if (!this.coefs) {
