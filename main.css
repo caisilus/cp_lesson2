@@ -1,0 +1,16 @@
+.polynomInput {
+    font-size: 20px
+}
+
+.resultContainer {
+    text-align: left;
+    font-size: 22px;
+}
+
+.resultElement {
+    display: inline-block;
+}
+
+.diffButton {
+    font-size: 20px;
+}

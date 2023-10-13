@@ -3,18 +3,22 @@
 <head>
     <title>Lesson 4</title>
     <meta charset="UTF-8"/>
-
+    <link rel="stylesheet" type="text/css" href="./main.css">
     <script src="src/index.js" type="module"></script>
 </head>
 
 <body>
 <h1>Implement the symbolic diff here</h1>
-<div id="container">
-
+<div id="mainContainer" class="mainContainer">
+    <input id="polynomInputField" class="polynomInput">
+    <div class="resultContainer">
+        <p class="resultElement">Result is: </p>
+        <p class="resultElement" id="resultLabel"></p>
+    </div>
 </div>
 <div>
-    <button id="demoButton">
-        Add something
+    <button id="diffButton" class="diffButton">
+        Differentiate
     </button>
 </div>
 </body>
