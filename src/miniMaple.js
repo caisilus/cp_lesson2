@@ -7,9 +7,11 @@ class MiniMaple{
     const lexer = new PolynomLexer(polynomStr) 
     const parser = new PolynomParser(lexer)
     const polynom = parser.parseBy(variableName)
+
     if (polynom === null) {
       return null
     }
+
     const power = polynom.power()
     if (power === 0)
       return "0"

@@ -40,4 +40,12 @@ describe("diff module", () => {
       const diff = miniMaple.diff(polynom, "x")
       expect(diff).toBe("9 * x^2 - 8 * x + 9 * y")
    })
+
+   test("returns null for incorrect polynom", () => {
+      const polynom = "3x + @"
+      const miniMaple = new MiniMaple()
+
+      const diff = miniMaple.diff(polynom, "x")
+      expect(diff).toBe(null)
+   })
 })
